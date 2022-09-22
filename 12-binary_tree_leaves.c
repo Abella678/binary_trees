@@ -1,33 +1,20 @@
 #include "binary_trees.h"
 
 /**
- * array_to_bst - Builds a binary search tree from an array.
- * @array: A pointer to the first element of the array to be converted.
- * @size: The number of elements in @array.
+ * binary_tree_leaves - Counts the leaves in a binary tree.
+ * @tree: A pointer to the root node of the tree to count the leaves of.
  *
- * Return: A pointer to the root node of the created BST, or NULL upon failure.
+ * Return: The number of leaves in the tree.
  */
-bst_t *array_to_bst(int *array, size_t size)
+size_t binary_tree_leaves(const binary_tree_t *tree)
 {
-	bst_t *tree = NULL;
-	size_t i, j;
+	size_t leaves = 0;
 
-	if (array == NULL)
-		return (NULL);
-
-	for (i = 0; i < size; i++)
+	if (tree)
 	{
-		for (j = 0; j < i; j++)
-		{
-			if (array[j] == array[i])
-				break;
-		}
-		if (j == i)
-		{
-			if (bst_insert(&tree, array[i]) == NULL)
-				return (NULL);
-		}
+		leaves += (!tree->left && !tree->right) ? 1 : 0;
+		leaves += binary_tree_leaves(tree->left);
+		leaves += binary_tree_leaves(tree->right);
 	}
-
-	return (tree);
+	return (leaves);
 }
